@@ -20,67 +20,84 @@ namespace Deposito
         /// </summary>
         private double NivelAgua;
         private double NivelPienso;
-        private double MaximoAgua;      //La cantidad máxima a reponer no puede superar el tamaño del DEPÓSITO DE AGUA, se comprueba antes de actualizar los niveles. 
-        private double MaximoPienso;     //La cantidad máxima a reponer no puede superar el tamaño del DEPÓSITO DE PIENSO, se comprueba antes de actualizar los niveles. 
+        private double MaximoAgua = 1000;      //La cantidad máxima a reponer no puede superar el tamaño del DEPÓSITO DE AGUA, se comprueba antes de actualizar los niveles. 
+        private double MaximoPienso = 5000;     //La cantidad máxima a reponer no puede superar el tamaño del DEPÓSITO DE PIENSO, se comprueba antes de actualizar los niveles. 
+        /// <summary>
+        /// He añadido el set para poder introducir el valor del nivel de agua y del pienso.
+        /// </summary>
         public double Niveldeagua
         {
             get { return NivelAgua; }
+            set { NivelAgua = value; }
         }
         public double Niveldepienso
         {
             get { return NivelPienso; }
+            set { NivelPienso = value; }
         }
+        ///
         /// <summary>
-        /// He cambiado el nombre de la funcion a "ReponerAgua" y he cambiado la siguiente variable.
+        /// He cambiado el nombre de la funcion a "ReponerAgua", he realizado cambios al nivel de lo que realiza el
+        /// "if" debido a que de esta manera comprueba que la cantidad no es negativa y que 
+        /// no se va a salir del deposito al sumar la cantidad de agua a la que se encuentra ya en
+        /// el deposito y he cambiado la siguiente variable.
         /// </summary>
+        /// <remarks>Recuerda con confundirla con el metodo "ReponerPienso"</remarks>
         /// <param name="CantidadAgua">Sirve para medir la cantidad de agua que se desea añadir al deposito</param>
         public void ReponerAgua(double CantidadAgua)
         {
-            MaximoAgua = CantidadAgua + NivelAgua;
-            if (CantidadAgua > 0 && MaximoAgua < 10000) //Tamaño del depósito de pienso es de 1000 l.
+            if (CantidadAgua > 0 && MaximoAgua > (NivelAgua + CantidadAgua)) //Tamaño del depósito de agua es de 1000 l.
             {
                 NivelAgua = NivelAgua + CantidadAgua;
             }
         }
+        /// <summary>
+        /// He cambiado el nombre de la funcion a "ReponerPienso", he realizado cambios al nivel de lo que realiza el
+        /// "if" debido a que de esta manera comprueba que la cantidad no es negativa y que 
+        /// no se va a salir del deposito al sumar la cantidad de pienso a la que se encuentra ya en
+        /// el deposito y he cambiado la siguiente variable.
+        /// </summary>
+        /// <remarks>Recuerda con confundirla con el metodo "ReponerAgua"</remarks>
+        /// <param name="CantidadPienso">Sirve para medir la cantidad de pienso que se desea añadir al deposito</param>
         public void ReponerPienso(double CantidadPienso)
         {
-
-            MaximoPienso = CantidadPienso + NivelPienso;
-            if (CantidadPienso > 0 && MaximoPienso < 5000)  //Tamaño del depósito de pienso es de 5000 kg. 
+            if (CantidadPienso > 0 && MaximoPienso > (NivelPienso + CantidadPienso))  //Tamaño del depósito de pienso es de 5000 kg. 
             {
                 NivelPienso = NivelPienso + CantidadPienso;
             }
         }
-
-
-        public double ConsumoAgua(double cantidadaretirardeagua)
+        /// <summary>
+        /// He cambiado de nombre el metodo y he eliminado la variable "retirado1" debido a que era innecesaria
+        /// y tambien he cambiado el funcionamiento del metodo debido a que como sabemos la cantidad del agua que vamos 
+        /// retirar nos interesaría más conocer la cantidad de agua que nos queda en el deposito.
+        /// </summary>
+        /// <remarks>Recuerda con confundirla con el metodo "ConsumoPienso"</remarks>
+        /// <param name="CantidadAgua">Cantidad de agua a retirar del deposito</param>
+        /// <returns>Devuelve la cantidad de agua que queda en el deposito</returns>
+        public double ConsumoAgua(double CantidadAgua)
         {
-            double retirado1 = 0; //Cantidad que se retira
-            if (cantidadaretirardeagua > 0 && cantidadaretirardeagua <= NivelAgua)
+            if (CantidadAgua > 0 && CantidadAgua <= NivelAgua)
             {
-                retirado1 = cantidadaretirardeagua;
-                NivelAgua = NivelAgua - cantidadaretirardeagua;
+                NivelAgua = NivelAgua - CantidadAgua;
             }
 
-            return retirado1;
+            return NivelAgua;
         }
-        public double ConsumoPienso(double cantidadaretirardepienso)
+        /// <summary>
+        /// He cambiado de nombre el metodo y he eliminado la variable "retirado2" debido a que era innecesaria
+        /// y tambien he cambiado el funcionamiento del metodo debido a que como sabemos la cantidad del pienso que vamos 
+        /// retirar nos interesaría más conocer la cantidad de pienso que nos queda en el deposito.
+        /// </summary>
+        /// <remarks>Recuerda con confundirla con el metodo "ConsumoAgua"</remarks>
+        /// <param name="CantidadPienso">Cantidad de pienso a retirar del deposito</param>
+        /// <returns>Devuelve la cantidad de pienso que queda en el deposito</returns>
+        public double ConsumoPienso(double CantidadPienso)
         {
-            double retirado2 = 0; //Cantidad que se retira
-            if (cantidadaretirardepienso > 0 && cantidadaretirardepienso <= NivelPienso)
+            if (CantidadPienso > 0 && CantidadPienso <= NivelPienso)
             {
-                retirado2 = cantidadaretirardepienso;
-                NivelPienso = NivelPienso - cantidadaretirardepienso;
+                NivelPienso = NivelPienso - CantidadPienso;
             }
-            return retirado2;
+            return NivelPienso;
         }
-
-
-
-
-
-
-
-
     }
 }
