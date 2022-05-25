@@ -2,8 +2,6 @@
 using System;
 
 
-//namespace EDexamenT6a8
-
 
 namespace Deposito
 {
